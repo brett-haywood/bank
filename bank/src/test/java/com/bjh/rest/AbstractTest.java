@@ -1,6 +1,12 @@
 package com.bjh.rest;
 
-import java.io.IOException;
+import com.bjh.rest.domain.Account;
+import com.bjh.rest.domain.Transaction;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,12 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
-
+import java.io.IOException;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -42,8 +43,18 @@ public abstract class AbstractTest {
 
    protected <T> List<T> listFromJson(String json)
            throws JsonParseException, JsonMappingException, IOException {
-
       ObjectMapper objectMapper = new ObjectMapper();
       return objectMapper.readValue(json, new TypeReference<List<T>>(){});
+   }
+
+   protected List<Transaction> transListFromJson(String json)
+           throws JsonParseException, JsonMappingException, IOException {
+      ObjectMapper objectMapper = new ObjectMapper();
+      return objectMapper.readValue(json, new TypeReference<List<Transaction>>(){});
+   }
+   protected List<Account> accountListFromJson(String json)
+           throws JsonParseException, JsonMappingException, IOException {
+      ObjectMapper objectMapper = new ObjectMapper();
+      return objectMapper.readValue(json, new TypeReference<List<Account>>(){});
    }
 }
