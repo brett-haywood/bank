@@ -8,6 +8,9 @@ public class Account {
    private CurrencyType currency;
    private Double openAvailableBalance;
 
+   public Account() {
+   }
+
    public Account(String accountNumber, String accountName, AccountType accountType, String balanceDate, CurrencyType currency, Double openAvailableBalance) {
       this.accountNumber = accountNumber;
       this.accountName = accountName;
