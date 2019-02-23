@@ -18,6 +18,39 @@ java -jar rest-0.0.1-SNAPSHOT.jar
 It is possible to interrogate the executing service using Postman application. The interface uses a 'userId' to
 validate each transaction to ensure account and transaction records are correctly extracted.
 To access the accounts of a particular user,
-GET command on default port, http://localhost:8080/api/accounts with Json body: { userId : "1001" }
+GET command on default port, http://localhost:8080/api/accounts with Json body: { "userId" : "1004" }
+For example, accounts list:
+[
+    {
+        "accountNumber": "32895643",
+        "accountName": "SGSavings389",
+        "accountType": "CURRENT",
+        "balanceDate": "22/01/19",
+        "currency": "SGD",
+        "openAvailableBalance": 855.97
+    },
+    {
+        "accountNumber": "48120954",
+        "accountName": "AUCurrent621",
+        "accountType": "SAVINGS",
+        "balanceDate": "19/01/19",
+        "currency": "AUD",
+        "openAvailableBalance": 604.67
+    }
+]
 Similarly the transactions for a particular users account can be accessed with,
-GET command on default port, http://localhost:8080/api/transactions with Json body: { userId : "1001", accountId : "1234" }
+GET command on default port, http://localhost:8080/api/transactions with Json body: { "userId" : "1004", "accountId" : "32895643" }
+For example, transaction list:
+[
+    {
+        "accountNumber": "32895643",
+        "accountName": "SGSavings389",
+        "valueDate": "1/2/18",
+        "currency": "SGD",
+        "debitAmount": 0,
+        "creditAmount": 1234.56,
+        "debitCredit": "CREDIT",
+        "transactionNarrative": ""
+    },
+    ....
+]
