@@ -24,6 +24,7 @@ public class CustomerDatabase {
    }
 
    static {
+      // List of transactions
       Transaction trans = new Transaction("1234", "bjh", "4/5/19", CurrencyType.AUD, 0.0, 1234.56, DebitCreditType.CREDIT, "");
       List<Transaction> transList = new LinkedList<>();
       transList.add(trans);
