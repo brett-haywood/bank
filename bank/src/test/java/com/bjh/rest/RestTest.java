@@ -1,17 +1,19 @@
 package com.bjh.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
+import com.bjh.rest.domain.Account;
+import com.bjh.rest.domain.AccountId;
+import com.bjh.rest.domain.Transaction;
+import com.bjh.rest.domain.UserId;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.bjh.rest.domain.*;
-
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RestTest extends AbstractTest {
    @Override
@@ -46,8 +48,8 @@ public class RestTest extends AbstractTest {
       assertEquals(200, status); // OK status
 
       String content = mvcResult.getResponse().getContentAsString();
-      List<Account> transList = super.listFromJson(content);
-      assertTrue(transList.size() == 2);
+      List<Account> accList = super.accountListFromJson(content);
+      assertTrue(accList.size() == 4);
    }
 
    @Test
@@ -65,7 +67,7 @@ public class RestTest extends AbstractTest {
       assertEquals(200, status); // OK status
 
       String content = mvcResult.getResponse().getContentAsString();
-      List<Account> transList = super.listFromJson(content);
+      List<Account> transList = super.accountListFromJson(content);
       assertTrue(transList.size() == 0);
    }
 
@@ -82,32 +84,12 @@ public class RestTest extends AbstractTest {
    }
 
    @Test
-   // Test success of correctly formed Rest Get request
-   public void getTransactionsList() throws Exception {
-      String uri = "/api/transactions";
-      AccountId id = new AccountId();
-      id.setUserId("1001");
-      id.setAccountNumber("1234");
-      String body = super.mapToJson(id);
-
-      MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
-              .contentType(MediaType.APPLICATION_JSON_VALUE).content(body)).andReturn();
-
-      int status = mvcResult.getResponse().getStatus();
-      assertEquals(200, status);
-      String content = mvcResult.getResponse().getContentAsString();
-
-      List<Transaction> transList = super.listFromJson(content);
-      assertTrue(transList.size() == 1);
-   }
-
-   @Test
    // Test success of correctly formed Rest Get request but unknown account id
    public void getEmptyTransactionsList() throws Exception {
       String uri = "/api/transactions";
       AccountId id = new AccountId();
       id.setUserId("1001");
-      id.setAccountNumber("5678");
+      id.setAccountNumber("12345678");
       String body = super.mapToJson(id);
 
       MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
@@ -117,8 +99,28 @@ public class RestTest extends AbstractTest {
       assertEquals(200, status);
       String content = mvcResult.getResponse().getContentAsString();
 
-      List<Transaction> transList = super.listFromJson(content);
+      List<Transaction> transList = super.transListFromJson(content);
       assertTrue(transList.size() == 0);
+   }
+
+   @Test
+   // Test success of correctly formed Rest Get request
+   public void getTransactionsList() throws Exception {
+      String uri = "/api/transactions";
+      AccountId id = new AccountId();
+      id.setUserId("1004");
+      id.setAccountNumber("32895643");
+      String body = super.mapToJson(id);
+
+      MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+              .contentType(MediaType.APPLICATION_JSON_VALUE).content(body)).andReturn();
+
+      int status = mvcResult.getResponse().getStatus();
+      assertEquals(200, status);
+      String content = mvcResult.getResponse().getContentAsString();
+
+      List<Transaction> transList = super.transListFromJson(content);
+      assertTrue(transList.size() == 10);
    }
 
 }
